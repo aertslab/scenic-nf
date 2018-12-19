@@ -4,9 +4,9 @@
 20181213 CCF
 
 To run:
-nextflow run scenic-docker.nf -with-report report.html -with-timeline timeline.html -with-dag dag.png
+nextflow run scenic-docker.nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -resume
 Cleanup:
-rm flowchart.png* && rm report.html* && rm timeline.html* && rm -r work/
+rm dag.png* && rm report.html* && rm timeline.html* && rm -r work/
 
 */
 
