@@ -13,6 +13,7 @@ rm dag.png* && rm report.html* && rm timeline.html* && rm -r work/
 params.expr = "/media/data/chris/nextflow-test/inputdata/expr_mat.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
+params.threads = 6
 
 // channel for SCENIC databases resources:
 featherDB = Channel
@@ -35,7 +36,7 @@ process GRNboost {
 
     """
     pyscenic grnboost \
-        --num_workers 6 \
+        --num_workers ${params.threads} \
         -o adj.tsv \
         $exprMat \
         $TFs
@@ -62,7 +63,7 @@ process i_cisTarget {
         --mode "dask_multiprocessing" \
         --output_type csv \
         --output reg.csv \
-        --num_workers 6
+        --num_workers ${params.threads}
     """
 }
 
@@ -80,7 +81,7 @@ process AUCell {
         $exprMat \
         reg.csv \
         -o auc.csv \
-        --num_workers 6
+        --num_workers ${params.threads}
     """
 }
 
