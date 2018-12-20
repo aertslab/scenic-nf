@@ -9,7 +9,7 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
   * [Docker](https://docs.docker.com/)
     * From pySCENIC, a locally-built Docker image, [see here](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
   * [Singularity](https://www.sylabs.io/singularity/)
-    * From singularity hub: shub://aertslab/pySCENIC:latest
+    * From singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033)
 
 
 ## Parameters: input files and databases
@@ -17,15 +17,15 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
 Requires the same support files as [pySCENIC](https://github.com/aertslab/pySCENIC).
 These can be passed as command line parameters to nextflow.
 
-    -expr = expression matrix, (tsv format)
+    --expr = expression matrix, (tsv format)
 
-    -TFs = file containing transcription factors, one per line
+    --TFs = file containing transcription factors, one per line
 
-    -motifs = Motif annotation database, tbl format.
+    --motifs = Motif annotation database, tbl format.
 
-    -db = Ranking databases, feather format.
+    --db = Ranking databases, feather format.
 
-    -threads = Number of threads to use.
+    --threads = Number of threads to use.
 
 
 ## Running the pipeline on the example dataset
@@ -46,8 +46,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
     # Ranking databases:
     wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc8nr/gene_based/hg19-500bp-upstream-10species.mc8nr.feather -P example/
 
-Finally, get a small sample expression matrix:
-
+    # Finally, get a small sample expression matrix:
     wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/expr_mat.txt.gz -P example/
     gunzip -c example/expr_mat.txt.gz > example/expr_mat.tsv
 
