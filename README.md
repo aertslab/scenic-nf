@@ -9,26 +9,74 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
   * [Docker](https://docs.docker.com/)
     * From pySCENIC, a locally-built Docker image, [see here](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
   * [Singularity](https://www.sylabs.io/singularity/)
-    * From singularity hub: shub://cflerin/pySCENIC:latest
+    * From singularity hub: shub://aertslab/pySCENIC:latest
 
-## Running the pipeline
+
+## Parameters: input files and databases
+
+Requires the same support files as [pySCENIC](https://github.com/aertslab/pySCENIC).
+These can be passed as command line parameters to nextflow.
+
+    -expr = expression matrix, (tsv format)
+
+    -TFs = file containing transcription factors, one per line
+
+    -motifs = Motif annotation database, tbl format.
+
+    -db = Ranking databases, feather format.
+
+    -threads = Number of threads to use.
+
+
+## Running the pipeline on the example dataset
+
+### Download testing dataset
+
+Download a minimum set of SCENIC database files for a human dataset (approximately 1GB):
+
+    cd scenic-nf
+    mkdir example
+
+    # Transcription factors:
+    wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/allTFs_hg38.txt -P example/
+
+    # Motif to TF annotation database:
+    wget https://resources.aertslab.org/cistarget/motif2tf/motifs-v9-nr.hgnc-m0.001-o0.0.tbl -P example/
+
+    # Ranking databases:
+    wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc8nr/gene_based/hg19-500bp-upstream-10species.mc8nr.feather -P example/
+
+Finally, get a small sample expression matrix:
+
+    wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/expr_mat.txt.gz -P example/
+    gunzip -c example/expr_mat.txt.gz > example/expr_mat.tsv
+
+
+### Running the example pipeline
 
 ### Docker
 
-To run the basic pipeline:
-
-    nextflow run scenic.nf -profile docker
+    nextflow run aertslab/scenic-nf \
+        -profile docker
+        --expr example/expr_mat.tsv \
+        --TFs example/allTFs_hg38.txt \
+        --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
+        --db example/*feather
 
 ### Singularity
 
-    nextflow run scenic.nf -profile singularity
+    nextflow run aertslab/scenic-nf \
+        -profile singularity \
+        --expr example/expr_mat.tsv \
+        --TFs example/allTFs_hg38.txt \
+        --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
+        --db example/*feather
 
-### To run with extra reporting enabled
 
-    nextflow run scenic.nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -profile [docker|singularity]
+## To run with extra reporting enabled
 
-## Limitations
+    nextflow run aertslab/scenic-nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -profile [docker|singularity]
 
-* Input databases and expression matrix are hard coded.
+
 
 

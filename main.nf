@@ -10,14 +10,16 @@ rm dag.png* && rm report.html* && rm timeline.html* && rm -r work/
 
 */
 
-params.expr = "/media/data/chris/nextflow-test/inputdata/expr_mat.tsv"
+params.expr = "/media/data/chris/docker/inputdata/expr_mat_subset.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
+params.db = "/media/data/chris/docker/resources/hg19*mc9nr.feather"
+
 params.threads = 6
 
 // channel for SCENIC databases resources:
 featherDB = Channel
-    .fromPath( "/media/data/chris/docker/resources/hg19*mc9nr.feather" )
+    .fromPath( params.db )
     .collect() // use all files together in the ctx command
 
 expr = file(params.expr)
@@ -61,9 +63,8 @@ process i_cisTarget {
         --annotations_fname ${motif} \
         --expression_mtx_fname ${exprMat} \
         --mode "dask_multiprocessing" \
-        --output_type csv \
         --output reg.csv \
-        --num_workers ${params.threads}
+        --num_workers ${params.threads} \
     """
 }
 
