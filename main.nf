@@ -1,19 +1,11 @@
 #!/usr/bin/env nextflow
 
-/*
-20181213 CCF
-
-To run:
-nextflow run scenic-docker.nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -resume
-Cleanup:
-rm dag.png* && rm report.html* && rm timeline.html* && rm -r work/
-
-*/
 
 params.expr = "/media/data/chris/docker/inputdata/expr_mat_subset.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
 params.db = "/media/data/chris/docker/resources/hg19*mc9nr.feather"
+params.output = "AUC-mtx_output.loom"
 
 params.threads = 6
 
@@ -75,16 +67,16 @@ process AUCell {
     file 'reg.csv' from regulons
 
     output:
-    file 'auc.csv' into AUCmat
+    file 'auc.loom' into AUCmat
 
     """
     pyscenic aucell \
         $exprMat \
         reg.csv \
-        -o auc.csv \
+        -o auc.loom \
         --num_workers ${params.threads}
     """
 }
 
-AUCmat.copyTo('AUC-mtx_output.csv')
+AUCmat.copyTo(params.output)
 
