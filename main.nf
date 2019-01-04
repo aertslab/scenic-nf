@@ -74,6 +74,7 @@ process AUCell {
         $exprMat \
         reg.csv \
         -o auc.loom \
+        --append \
         --num_workers ${params.threads}
     """
 }
