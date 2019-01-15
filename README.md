@@ -56,7 +56,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
 ### Docker
 
     nextflow run aertslab/scenic-nf \
-        -profile docker
+        -profile docker \
         --expr example/expr_mat.tsv \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
