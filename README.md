@@ -55,7 +55,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
 
 ### Running the example pipeline
 
-### Docker
+#### Docker
 
     nextflow run aertslab/scenic-nf \
         -profile docker \
@@ -64,7 +64,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
         --db "example/*feather"
 
-### Singularity
+#### Singularity
 
     nextflow run aertslab/scenic-nf \
         -profile singularity \
