@@ -1,21 +1,10 @@
 #!/usr/bin/env nextflow
 
-/*
-20181213 CCF
-
-To run:
-nextflow run scenic-docker.nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -resume
-Cleanup:
-rm dag.png* && rm report.html* && rm timeline.html* && rm -r work/
-
-*/
-
 params.expr = "/media/data/chris/docker/inputdata/expr_mat_subset.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
 params.db = "/media/data/chris/docker/resources/hg19*mc9nr.feather"
-params.grn = "grnboost"
-
+params.grn = "grnboost2"
 params.threads = 6
 
 // channel for SCENIC databases resources:
@@ -49,7 +38,7 @@ process GRNinference {
     file 'adj.tsv' into GRN
 
     """
-    pyscenic grnboost \
+    pyscenic grn \
         --num_workers ${params.threads} \
         -o adj.tsv \
         --method ${params.grn} \
