@@ -7,9 +7,9 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
 * [Nextflow](https://www.nextflow.io/)
 * A container system:
   * [Docker](https://docs.docker.com/)
-    * From pySCENIC, a locally-built Docker image, [see here](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
+    * Pre-build image from dockerhub: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic).
   * [Singularity](https://www.sylabs.io/singularity/)
-    * From singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033)
+    * Pre-built image from singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
 
 
 ## Parameters: input files and databases
