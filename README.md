@@ -7,10 +7,10 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
 * [Nextflow](https://www.nextflow.io/)
 * A container system:
   * [Docker](https://docs.docker.com/)
-    * Pre-build image from dockerhub: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic). 
+    * Pre-built image from dockerhub: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic).
     [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
   * [Singularity](https://www.sylabs.io/singularity/)
-    * Pre-built image from singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033)
+    * Pre-built image from singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
 
 
 ## Parameters: input files and databases
@@ -24,12 +24,13 @@ These can be passed as command line parameters to nextflow.
 
     --motifs = Motif annotation database, tbl format.
 
-    --db = Ranking databases, feather format.
+    --db = Ranking databases, feather format. If using a glob pattern to select multiple database files, this parameter must be enclosed in quotes (i.e. --db "/path/to/dbs/hg19*feather").
 
     --threads = Number of threads to use.
 
     --output = Name of the output loom file.
 
+    --grn = GRN inference method, either "grnboost2" or "genie3" (optional, default: grnboost2)
 
 ## Running the pipeline on the example dataset
 
@@ -56,23 +57,23 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
 
 ### Running the example pipeline
 
-### Docker
+#### Docker
 
     nextflow run aertslab/scenic-nf \
-        -profile docker
+        -profile docker \
         --expr example/expr_mat.tsv \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db example/*feather
+        --db "example/*feather"
 
-### Singularity
+#### Singularity
 
     nextflow run aertslab/scenic-nf \
         -profile singularity \
         --expr example/expr_mat.tsv \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db example/*feather
+        --db "example/*feather"
 
 
 ## To run with extra reporting enabled

@@ -1,12 +1,11 @@
 #!/usr/bin/env nextflow
 
-
 params.expr = "/media/data/chris/docker/inputdata/expr_mat_subset.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
 params.db = "/media/data/chris/docker/resources/hg19*mc9nr.feather"
 params.output = "AUC-mtx_output.loom"
-
+params.grn = "grnboost2"
 params.threads = 6
 
 // channel for SCENIC databases resources:
@@ -14,12 +13,23 @@ featherDB = Channel
     .fromPath( params.db )
     .collect() // use all files together in the ctx command
 
+n = Channel.fromPath(params.db).count().get()
+if( n==1 ) {
+    println( "\n***\nWARNING: only using a single feather database:\n  ${featherDB.get()[0]}.\nTo include all database files using pattern matching, make sure the value for the '--db' parameter is enclosed in quotes!\n***\n" )
+} else {
+    println( "\n***\nUsing $n feather databases:\n")
+    featherDB.get().each {
+        println "  ${it}"
+    }
+    println( "***\n")
+}
+
 expr = file(params.expr)
 tfs = file(params.TFs)
 motifs = file(params.motifs)
 
 
-process GRNboost {
+process GRNinference {
 
     input:
     file TFs from tfs
@@ -29,9 +39,10 @@ process GRNboost {
     file 'adj.tsv' into GRN
 
     """
-    pyscenic grnboost \
+    pyscenic grn \
         --num_workers ${params.threads} \
         -o adj.tsv \
+        --method ${params.grn} \
         $exprMat \
         $TFs
     """
