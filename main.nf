@@ -23,6 +23,17 @@ featherDB = Channel
     .fromPath( params.db )
     .collect() // use all files together in the ctx command
 
+n = Channel.fromPath(params.db).count().get()
+if( n==1 ) {
+    println( "\n***\nWARNING: only using a single feather database:\n  ${featherDB.get()[0]}.\nTo include all database files using pattern matching, make sure the valu    e for the '--db' parameter is enclosed in quotes!\n***\n" )
+} else {
+    println( "\n***\nUsing $n feather databases:\n")
+    featherDB.get().each {
+        println "  ${it}"
+    }
+    println( "***\n")
+}
+
 expr = file(params.expr)
 tfs = file(params.TFs)
 motifs = file(params.motifs)

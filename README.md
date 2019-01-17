@@ -23,7 +23,7 @@ These can be passed as command line parameters to nextflow.
 
     --motifs = Motif annotation database, tbl format.
 
-    --db = Ranking databases, feather format.
+    --db = Ranking databases, feather format. If using a glob pattern to select multiple database files, this parameter must be enclosed in quotes (i.e. --db "/path/to/dbs/hg19*feather").
 
     --threads = Number of threads to use.
 
@@ -62,7 +62,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
         --expr example/expr_mat.tsv \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db example/*feather
+        --db "example/*feather"
 
 ### Singularity
 
@@ -71,7 +71,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
         --expr example/expr_mat.tsv \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db example/*feather
+        --db "example/*feather"
 
 
 ## To run with extra reporting enabled
