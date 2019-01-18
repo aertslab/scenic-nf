@@ -4,6 +4,7 @@ params.expr = "/media/data/chris/docker/inputdata/expr_mat_subset.tsv"
 params.TFs = "/media/data/chris/docker/resources/allTFs_hg38.txt"
 params.motifs = "/media/data/chris/docker/resources/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
 params.db = "/media/data/chris/docker/resources/hg19*mc9nr.feather"
+params.output = "pyscenic_output.csv"
 params.grn = "grnboost2"
 params.threads = 6
 
@@ -88,5 +89,5 @@ process AUCell {
     """
 }
 
-AUCmat.copyTo('AUC-mtx_output.csv')
+AUCmat.copyTo(params.output)
 

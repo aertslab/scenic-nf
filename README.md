@@ -27,6 +27,8 @@ These can be passed as command line parameters to nextflow.
 
     --threads = Number of threads to use.
 
+    --output = Name of the output file (csv).
+
     --grn = GRN inference method, either "grnboost2" or "genie3" (optional, default: grnboost2)
 
 
