@@ -50,9 +50,8 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
     # Ranking databases:
     wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc8nr/gene_based/hg19-500bp-upstream-10species.mc8nr.feather -P example/
 
-    # Finally, get a small sample expression matrix:
-    wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/expr_mat.txt.gz -P example/
-    gunzip -c example/expr_mat.txt.gz > example/expr_mat.tsv
+    # Finally, get a small sample expression matrix (loom format):
+    wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/expr_mat.loom -P example/
 
 
 ### Running the example pipeline
@@ -61,19 +60,21 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
 
     nextflow run aertslab/scenic-nf \
         -profile docker \
-        --expr example/expr_mat.tsv \
+        --expr example/expr_mat.loom \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db "example/*feather"
+        --db "example/*feather" \
+        -r loom
 
 #### Singularity
 
     nextflow run aertslab/scenic-nf \
         -profile singularity \
-        --expr example/expr_mat.tsv \
+        --expr example/expr_mat.loom \
         --TFs example/allTFs_hg38.txt \
         --motifs example/motifs-v9-nr.hgnc-m0.001-o0.0.tbl \
-        --db "example/*feather"
+        --db "example/*feather" \
+        -r loom
 
 
 ## To run with extra reporting enabled
