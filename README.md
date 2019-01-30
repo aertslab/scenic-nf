@@ -45,10 +45,10 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
     wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/allTFs_hg38.txt -P example/
 
     # Motif to TF annotation database:
-    wget https://resources.aertslab.org/cistarget/motif2tf/motifs-v9-nr.hgnc-m0.001-o0.0.tbl -P example/
+    wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/motifs.tbl -P example/
 
     # Ranking databases:
-    wget https://resources.aertslab.org/cistarget/databases/homo_sapiens/hg19/refseq_r45/mc8nr/gene_based/hg19-500bp-upstream-10species.mc8nr.feather -P example/
+    wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/genome-ranking.feather -P example/
 
     # Finally, get a small sample expression matrix:
     wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/expr_mat.txt.gz -P example/
