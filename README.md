@@ -5,12 +5,14 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
 ## Requirements
     
 * [Nextflow](https://www.nextflow.io/)
-* A container system:
+* A container system, either of:
   * [Docker](https://docs.docker.com/)
-    * Pre-built image from dockerhub: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic).
-    [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
   * [Singularity](https://www.sylabs.io/singularity/)
-    * Pre-built image from singularity hub: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
+
+The following container images will be pulled by nextflow as needed:
+* Docker: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic).
+* Singularity: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
+* [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
 
 
 ## Parameters: input files and databases
@@ -18,12 +20,12 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
 Requires the same support files as [pySCENIC](https://github.com/aertslab/pySCENIC).
 These can be passed as command line parameters to nextflow.
 
-    --expr = expression matrix, (tsv format)
+    --expr = expression matrix, (either in tsv format (must end in .tsv), or loom format (.loom))
     --TFs = file containing transcription factors, one per line
     --motifs = Motif annotation database, tbl format.
     --db = Ranking databases, feather format. If using a glob pattern to select multiple database files, this parameter must be enclosed in quotes (i.e. --db "/path/to/dbs/hg19*feather").
     --threads = Number of threads to use.
-    --output = Name of the output loom file.
+    --output = Name of the output file, (either in tsv format (must end in .tsv), or loom format (.loom)).
     --grn = GRN inference method, either "grnboost2" or "genie3" (optional, default: grnboost2)
 
 ## Running the pipeline on the example dataset
@@ -42,6 +44,8 @@ This small test dataset takes approiximately 30s to run using 6 threads on a sta
     wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/genome-ranking.feather
     # Finally, get a small sample expression matrix (loom format):
     wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/expr_mat.loom
+    # Alternatively, in tsv format:
+    wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/expr_mat.tsv
 
 
 ### Running the example pipeline
@@ -53,8 +57,7 @@ This small test dataset takes approiximately 30s to run using 6 threads on a sta
         --expr expr_mat.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
-        --db *feather \
-        -r loom
+        --db *feather
 
 #### Singularity
 
@@ -63,8 +66,28 @@ This small test dataset takes approiximately 30s to run using 6 threads on a sta
         --expr expr_mat.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
-        --db *feather \
-        -r loom
+        --db *feather
+
+### Expected output
+
+If a loom was provided as input, a new loom file will be created as output containing:
+* The expression matrix from the original loom file
+* AUC matrix (output of AUCell)
+* List of regulons embedded in the loom meta data
+
+If a tsv expression matrix was provided as input, the AUC matrix will be written out (csv format).
+An example of the AUC matrix showing the regulon enrichment values in each cell (actual numerical values may differ due to the stochastic nature of the pySCENIC algorithms):
+
+    Cell,GABPB1(+)
+    CTGCGGAGTTCGCGAC-1,0.08
+    GAATGAACACACTGCG-1,0.045714285714285714
+    ATGCGATTCAGCATGT-1,0.10285714285714286
+    TTCGAAGGTAGCGATG-1,0.09714285714285714
+    CGTAGGCGTCGGCACT-1,0.10857142857142857
+    CCGGGATGTAAAGTCA-1,0.06285714285714286
+    ACTTGTTTCTCTTATG-1,0.08
+    ATCCACCGTCGGCACT-1,0.08571428571428572
+    GTACTTTTCGGCTACG-1,0.0
 
 ## To run with extra reporting enabled
 
