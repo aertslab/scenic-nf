@@ -38,6 +38,8 @@ process GRNinference {
         --num_workers ${params.threads} \
         -o adj.tsv \
         --method ${params.grn} \
+        --cell_id_attribute ${params.cell_id_attribute} \
+        --gene_attribute ${params.gene_attribute} \
         ${exprMat} \
         ${TFs}
     """
@@ -60,6 +62,8 @@ process i_cisTarget {
         ${feather} \
         --annotations_fname ${motif} \
         --expression_mtx_fname ${exprMat} \
+        --cell_id_attribute ${params.cell_id_attribute} \
+        --gene_attribute ${params.gene_attribute} \
         --mode "dask_multiprocessing" \
         --output reg.csv \
         --num_workers ${params.threads} \
@@ -80,6 +84,8 @@ process AUCell {
         $exprMat \
         reg.csv \
         -o auc.loom \
+        --cell_id_attribute ${params.cell_id_attribute} \
+        --gene_attribute ${params.gene_attribute} \
         --num_workers ${params.threads}
     """
 }

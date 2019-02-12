@@ -28,6 +28,11 @@ These can be passed as command line parameters to nextflow.
     --output = Name of the output file, (either in tsv format (must end in .tsv), or loom format (.loom)).
     --grn = GRN inference method, either "grnboost2" or "genie3" (optional, default: grnboost2)
 
+Optional parameters for reading from loom files:
+
+    --cell_id_attribute = which column attributes to use for the cell id (default: "CellID").
+    --gene_attribute = which row attributes for use for the gene names (default: "Gene").
+
 ## Running the pipeline on the example dataset
 
 ### Download testing dataset
