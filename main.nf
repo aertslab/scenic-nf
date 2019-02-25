@@ -77,18 +77,18 @@ process AUCell {
     file 'reg.csv' from regulons
 
     output:
-    file 'auc.loom' into AUCmat
+    file params.output into AUCmat
 
     """
     pyscenic aucell \
         $exprMat \
         reg.csv \
-        -o auc.loom \
+        -o ${params.output} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
         --num_workers ${params.threads}
     """
 }
 
-AUCmat.copyTo(params.output)
+AUCmat.last().collectFile(storeDir:params.outdir)
 
