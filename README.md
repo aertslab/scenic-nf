@@ -55,23 +55,31 @@ This small test dataset takes approiximately 30s to run using 6 threads on a sta
 
 ### Running the example pipeline
 
-#### Docker
+Either Docker or Singularity images can be used by specifying the appropriate profile (`-profile docker` or `-profile singularity`).
 
-    nextflow run aertslab/scenic-nf \
-        -profile docker \
-        --expr expr_mat.loom \
-        --TFs allTFs_hg38.txt \
-        --motifs motifs.tbl \
-        --db *feather
-
-#### Singularity
+#### Using loom input
 
     nextflow run aertslab/scenic-nf \
         -profile singularity \
         --expr expr_mat.loom \
+        --output pyscenic_output.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
         --db *feather
+
+Note that if a loom file is given as an input, the output file will be in loom format (and the `--output` file name must have a loom extension).
+
+#### Using tsv input
+
+    nextflow run aertslab/scenic-nf \
+        -profile singularity \
+        --expr expr_mat.tsv \
+        --output pyscenic_output.csv \
+        --TFs allTFs_hg38.txt \
+        --motifs motifs.tbl \
+        --db *feather
+
+Note that if a tsv file is given as an input, the output file will be in csv format (and the `--output` file name must have a csv extension).
 
 ### Expected output
 
