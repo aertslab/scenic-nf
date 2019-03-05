@@ -42,7 +42,7 @@ This small test dataset takes approiximately 30s to run using 6 threads on a sta
 
     mkdir example && cd example/
     # Transcription factors:
-    wget https://raw.githubusercontent.com/aertslab/containerizedGRNboost/master/example/input/allTFs_hg38.txt
+    wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/allTFs_hg38.txt 
     # Motif to TF annotation database:
     wget https://raw.githubusercontent.com/aertslab/scenic-nf/master/example/motifs.tbl
     # Ranking databases:
