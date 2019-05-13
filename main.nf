@@ -25,6 +25,7 @@ tfs = file(params.TFs)
 motifs = file(params.motifs)
 
 process GRNinference {
+    cache 'deep'
 
     input:
     file TFs from tfs
@@ -46,6 +47,7 @@ process GRNinference {
 }
 
 process i_cisTarget {
+    cache 'deep'
 
     input:
     file exprMat from expr
@@ -71,6 +73,7 @@ process i_cisTarget {
 }
 
 process AUCell {
+    cache 'deep'
 
     input:
     file exprMat from expr
