@@ -46,7 +46,7 @@ process GRNinference {
     """
 }
 
-process i_cisTarget {
+process cisTarget {
     cache 'deep'
 
     input:
