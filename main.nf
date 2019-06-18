@@ -25,8 +25,6 @@ tfs = file(params.TFs)
 motifs = file(params.motifs)
 nbRuns = params.nb_runs
 
-outdir = "${params.outdir}/scenic"
-
 // UTILS
 def runName = { it.getName().split('__')[0] }
 
@@ -111,7 +109,11 @@ process AUCell {
 
 def save = {
     (full, run, filename, ext) = (it.getName() =~ /(.+)__(.+)\.(.+)/)[0]
-    outDir = file("scenic/$run")
+    if( params.nb_runs==1 ) {
+        outDir = file( params.outdir )
+    } else if( params.nb_runs>1 ) {
+        outDir = file( params.outdir+"/$run" )
+    }
     result = outDir.mkdirs()
     println result ? "$run finished." : "Cannot create directory: $outDir"   
     Channel
