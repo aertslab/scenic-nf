@@ -31,8 +31,7 @@ def runName = { it.getName().split('__')[0] }
 process GRNinference {
     cache 'deep'
 
-    maxForks 1
-    cpus 1
+    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=1:00:00 -A ${params.qsubaccount}"
 
     input:
     each runId from 1..nbRuns
@@ -57,8 +56,7 @@ process GRNinference {
 process cisTarget {
     cache 'deep'
 
-    maxForks 1
-    cpus 1
+    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=1:00:00 -A ${params.qsubaccount}"
 
     input:
     file exprMat from expr
@@ -86,8 +84,7 @@ process cisTarget {
 process AUCell {
     cache 'deep'
 
-    maxForks 1
-    cpus 1
+    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=1gb -l walltime=1:00:00 -A ${params.qsubaccount}"
 
     input:
     file exprMat from expr
