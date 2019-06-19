@@ -102,6 +102,21 @@ An example of the AUC matrix showing the regulon enrichment values in each cell 
     ATCCACCGTCGGCACT-1,0.08571428571428572
     GTACTTTTCGGCTACG-1,0.0
 
+## Running the pipeline in an HPC environment
+
+The `qsub` profile enables each process to be submitted as a cluster job instead of being run locally.
+Along with this, the `qsubaccount` parameter has been added to specify a billing account on the cluster.
+As an example:
+
+    nextflow run aertslab/scenic-nf \
+        -profile singularity,qsub \
+        --expr expr_mat.tsv \
+        --output pyscenic_output.csv \
+        --TFs allTFs_hg38.txt \
+        --motifs motifs.tbl \
+        --db *feather \
+        --qsubaccount my_account
+
 ## To run with extra reporting enabled
 
     nextflow run aertslab/scenic-nf -with-report report.html -with-timeline timeline.html -with-dag dag.png -profile [docker|singularity]
