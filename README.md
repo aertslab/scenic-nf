@@ -10,7 +10,7 @@ A basic pipeline for running (py)SCENIC implemented in Nextflow.
   * [Singularity](https://www.sylabs.io/singularity/)
 
 The following container images will be pulled by nextflow as needed:
-* Docker: [aertslab/pyscenic:latest](https://cloud.docker.com/u/aertslab/repository/docker/aertslab/pyscenic).
+* Docker: [aertslab/pyscenic:latest](https://hub.docker.com/r/aertslab/pyscenic).
 * Singularity: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
 * [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
 
