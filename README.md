@@ -1,3 +1,8 @@
+# DEPRECATED
+
+This repository is not longer being actively maintained.
+For an updated Nextflow implementation of the SCENIC pipeline, see the [SCENIC Protocol](https://github.com/aertslab/SCENICprotocol).
+
 # SCENIC Nextflow pipeline using containers
 
 A basic pipeline for running (py)SCENIC implemented in Nextflow.
