@@ -30,6 +30,7 @@ def runName = { it.getName().split('__')[0] }
 
 process GRNinference {
     cache 'deep'
+    cpus params.threads
 
     clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=24:00:00 -A ${params.qsubaccount}"
 
@@ -43,7 +44,7 @@ process GRNinference {
 
     """
     pyscenic grn \
-        --num_workers ${params.threads} \
+        --num_workers ${task.cpus} \
         -o "run_${runId}__adj.tsv" \
         --method ${params.grn} \
         --cell_id_attribute ${params.cell_id_attribute} \
@@ -55,6 +56,7 @@ process GRNinference {
 
 process cisTarget {
     cache 'deep'
+    cpus params.threads
 
     clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=24:00:00 -A ${params.qsubaccount}"
 
@@ -77,12 +79,13 @@ process cisTarget {
         --gene_attribute ${params.gene_attribute} \
         --mode "dask_multiprocessing" \
         --output "${runName(adj)}__reg.csv" \
-        --num_workers ${params.threads} \
+        --num_workers ${task.cpus} \
     """
 }
 
 process AUCell {
     cache 'deep'
+    cpus params.threads
 
     clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=1gb -l walltime=1:00:00 -A ${params.qsubaccount}"
 
@@ -100,7 +103,7 @@ process AUCell {
         -o ${runName(reg)}__${params.output} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
-        --num_workers ${params.threads}
+        --num_workers ${task.cpus}
     """
 }
 
