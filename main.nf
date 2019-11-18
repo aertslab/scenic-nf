@@ -32,8 +32,6 @@ process GRNinference {
     cache 'deep'
     cpus params.threads
 
-    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=24:00:00 -A ${params.qsubaccount}"
-
     input:
     each runId from 1..nbRuns
     file TFs from tfs
@@ -57,8 +55,6 @@ process GRNinference {
 process cisTarget {
     cache 'deep'
     cpus params.threads
-
-    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=2gb -l walltime=24:00:00 -A ${params.qsubaccount}"
 
     input:
     file exprMat from expr
@@ -87,8 +83,6 @@ process AUCell {
     cache 'deep'
     cpus params.threads
 
-    clusterOptions "-l nodes=1:ppn=${params.threads} -l pmem=1gb -l walltime=1:00:00 -A ${params.qsubaccount}"
-
     input:
     file exprMat from expr
     file reg from regulons
@@ -115,18 +109,18 @@ def save = {
         outDir = file( params.outdir+"/$run" )
     }
     result = outDir.mkdirs()
-    println result ? "$run finished." : "Cannot create directory: $outDir"   
+    println result ? "$run finished." : "Cannot create directory: $outDir"
     Channel
         .fromPath(it)
         .collectFile(name: "${filename}.${ext}", storeDir: outDir)
 }
 
-grn_save.subscribe { 
-    save(it) 
+grn_save.subscribe {
+    save(it)
 }
-regulons_save.subscribe { 
-    save(it) 
+regulons_save.subscribe {
+    save(it)
 }
-auc_mat.subscribe { 
-    save(it) 
+auc_mat.subscribe {
+    save(it)
 }
